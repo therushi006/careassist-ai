@@ -13,9 +13,22 @@ export default function Dashboard() {
   const [notes, setNotes] = useState([]);
   const [prepSummaries, setPrepSummaries] = useState([]);
 
-  // Fetch actual data from storageService on mount
+  // Fetch actual data from storageService and subscribe to live changes
   useEffect(() => {
     loadData();
+
+    // Cross-component and cross-tab reactive updates without page reloads
+    const handleStorageUpdate = () => {
+      loadData();
+    };
+
+    window.addEventListener('careassist_storage_change', handleStorageUpdate);
+    window.addEventListener('storage', handleStorageUpdate);
+
+    return () => {
+      window.removeEventListener('careassist_storage_change', handleStorageUpdate);
+      window.removeEventListener('storage', handleStorageUpdate);
+    };
   }, []);
 
   const loadData = () => {
@@ -35,6 +48,7 @@ export default function Dashboard() {
     if (!dateStr) return 'Date not specified';
     try {
       const date = new Date(dateStr);
+      if (isNaN(date.getTime())) return dateStr;
       return date.toLocaleDateString('en-US', {
         weekday: 'short',
         month: 'short',
@@ -53,7 +67,7 @@ export default function Dashboard() {
         <div className="card-body p-4 p-md-5">
           <div className="row align-items-center">
             <div className="col-lg-8">
-              <div className="d-flex align-items-center gap-2 mb-2">
+              <div className="d-flex align-items-center gap-2 mb-2 flex-wrap">
                 <span className="badge bg-white text-primary fw-semibold px-3 py-1 shadow-sm">
                   <i className="bi bi-shield-check me-1"></i> Patient Empowerment Portal
                 </span>
