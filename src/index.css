@@ -1,0 +1,53 @@
+:root {
+  --primary-healthcare: #0d6efd;
+  --primary-healthcare-dark: #0a58ca;
+  --secondary-healthcare: #0dcaf0;
+  --accent-teal: #0f766e;
+  --accent-mint: #e6fffa;
+  --bg-soft: #f8fafc;
+  --card-shadow: 0 4px 12px rgba(13, 110, 253, 0.08);
+  --card-border: #e2e8f0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-soft);
+  color: #1e293b;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Healthcare Utility Classes (Standard CSS) */
+.bg-soft-blue {
+  background-color: #f0f7ff;
+}
+
+.text-navy {
+  color: #0f172a;
+}
+
+.border-light-subtle {
+  border-color: #e2e8f0 !important;
+}
+
+.badge-simulated {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+}
+
+.app-card {
+  background: #ffffff;
+  border: 1px solid var(--card-border);
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.app-card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.07);
+}

@@ -1,0 +1,21 @@
+/* App-level layout styling */
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  padding-bottom: 2.5rem;
+}
+
+/* Phase 1 Verification Banner */
+.setup-hero {
+  background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+  color: #ffffff;
+  border-radius: 1rem;
+  padding: 2.5rem 2rem;
+  margin-top: 1.5rem;
+  box-shadow: 0 10px 25px rgba(13, 110, 253, 0.15);
+}
