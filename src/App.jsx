@@ -4,6 +4,7 @@ import Navbar from './components/common/Navbar';
 import EmergencyNotice from './components/common/EmergencyNotice';
 import Footer from './components/common/Footer';
 import Dashboard from './pages/Dashboard';
+import AssistantPage from './pages/AssistantPage';
 import AppointmentPrepPage from './pages/AppointmentPrepPage';
 import AppointmentManagerPage from './pages/AppointmentManagerPage';
 import NotesPage from './pages/NotesPage';
@@ -23,19 +24,7 @@ export default function App() {
       <main className="main-content flex-grow-1">
         <Routes>
           <Route path="/" element={<Dashboard />} />
-          <Route
-            path="/assistant"
-            element={
-              <PlaceholderPage
-                title="Health Assistant (Simulated Demo)"
-                icon="bi-chat-heart"
-                phase="Phase 3 Target"
-                description="Interactive healthcare information assistant with clearly labelled simulated responses, visit workflow guides, and test preparation questions."
-                actionText="Back to Dashboard"
-                actionLink="/"
-              />
-            }
-          />
+          <Route path="/assistant" element={<AssistantPage />} />
           <Route path="/prep" element={<AppointmentPrepPage />} />
           <Route path="/appointments" element={<AppointmentManagerPage />} />
           <Route path="/notes" element={<NotesPage />} />
