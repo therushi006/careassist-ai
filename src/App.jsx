@@ -1,116 +1,107 @@
 import React from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
-
-function SetupVerification() {
-  return (
-    <div className="container py-4">
-      {/* Setup Hero Header */}
-      <div className="setup-hero mb-4 text-center">
-        <h1 className="fw-bold mb-2">
-          <i className="bi bi-heart-pulse-fill me-2 text-danger"></i>
-          CareAssist AI
-        </h1>
-        <p className="lead mb-0 text-white-50">
-          Healthcare Information & Appointment Preparation Platform
-        </p>
-        <div className="mt-3">
-          <span className="badge bg-success-subtle text-success-emphasis border border-success px-3 py-2 fs-6">
-            <i className="bi bi-check-circle-fill me-1"></i> Phase 1 Setup Successfully Verified
-          </span>
-        </div>
-      </div>
-
-      {/* Technology Verification Checklist */}
-      <div className="row g-4 mb-4">
-        <div className="col-md-6 col-lg-3">
-          <div className="card h-100 border-0 shadow-sm">
-            <div className="card-body">
-              <div className="d-flex align-items-center mb-3">
-                <div className="p-2 rounded bg-primary-subtle text-primary me-3">
-                  <i className="bi bi-lightning-charge-fill fs-4"></i>
-                </div>
-                <h5 className="card-title mb-0">React 19 + Vite</h5>
-              </div>
-              <p className="card-text text-secondary small">
-                Fast HMR build pipeline active and ready for component development.
-              </p>
-              <span className="badge bg-primary">Operational</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-md-6 col-lg-3">
-          <div className="card h-100 border-0 shadow-sm">
-            <div className="card-body">
-              <div className="d-flex align-items-center mb-3">
-                <div className="p-2 rounded bg-info-subtle text-info-emphasis me-3">
-                  <i className="bi bi-bootstrap-fill fs-4"></i>
-                </div>
-                <h5 className="card-title mb-0">Bootstrap 5</h5>
-              </div>
-              <p className="card-text text-secondary small">
-                Vanilla Bootstrap 5.3 CSS, JS bundle, and standard CSS loaded.
-              </p>
-              <span className="badge bg-info text-dark">Loaded</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-md-6 col-lg-3">
-          <div className="card h-100 border-0 shadow-sm">
-            <div className="card-body">
-              <div className="d-flex align-items-center mb-3">
-                <div className="p-2 rounded bg-warning-subtle text-warning-emphasis me-3">
-                  <i className="bi bi-compass-fill fs-4"></i>
-                </div>
-                <h5 className="card-title mb-0">React Router</h5>
-              </div>
-              <p className="card-text text-secondary small">
-                Client-side routing active with clean URL navigation configured.
-              </p>
-              <span className="badge bg-warning text-dark">Active</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-md-6 col-lg-3">
-          <div className="card h-100 border-0 shadow-sm">
-            <div className="card-body">
-              <div className="d-flex align-items-center mb-3">
-                <div className="p-2 rounded bg-success-subtle text-success me-3">
-                  <i className="bi bi-shield-check fs-4"></i>
-                </div>
-                <h5 className="card-title mb-0">Safety Directives</h5>
-              </div>
-              <p className="card-text text-secondary small">
-                Clear disclaimers, no live API key exposure, no autonomous diagnosis.
-              </p>
-              <span className="badge bg-success">Compliant</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Safety Notice Preview */}
-      <div className="alert alert-warning d-flex align-items-center border-warning-subtle" role="alert">
-        <i className="bi bi-exclamation-triangle-fill flex-shrink-0 me-2 fs-5"></i>
-        <div>
-          <strong>Medical Notice:</strong> CareAssist AI is designed for informational guidance and appointment preparation only. It does not provide medical diagnosis, clinical advice, or emergency triage.
-        </div>
-      </div>
-    </div>
-  );
-}
+import { Routes, Route } from 'react-router-dom';
+import Navbar from './components/common/Navbar';
+import EmergencyNotice from './components/common/EmergencyNotice';
+import Footer from './components/common/Footer';
+import Dashboard from './pages/Dashboard';
+import PlaceholderPage from './components/common/PlaceholderPage';
 
 export default function App() {
   return (
-    <div className="app-container">
-      <main className="main-content">
+    <div className="app-container d-flex flex-column min-vh-100">
+      {/* 1. Primary Navigation */}
+      <Navbar />
+
+      {/* 2. Cautious Emergency & Safety Disclaimer */}
+      <EmergencyNotice />
+
+      {/* 3. Main Route Content */}
+      <main className="main-content flex-grow-1">
         <Routes>
-          <Route path="/" element={<SetupVerification />} />
-          <Route path="*" element={<SetupVerification />} />
+          <Route path="/" element={<Dashboard />} />
+          <Route
+            path="/assistant"
+            element={
+              <PlaceholderPage
+                title="Health Assistant (Simulated Demo)"
+                icon="bi-chat-heart"
+                phase="Phase 3 Target"
+                description="Interactive healthcare information assistant with clearly labelled simulated responses, visit workflow guides, and test preparation questions."
+                actionText="Back to Dashboard"
+                actionLink="/"
+              />
+            }
+          />
+          <Route
+            path="/prep"
+            element={
+              <PlaceholderPage
+                title="Appointment Preparation Form"
+                icon="bi-clipboard2-check"
+                phase="Phase 4 Target"
+                description="Guided patient intake to structure your chief complaint, symptom timeline, impacts on daily routine, and generate doctor questions."
+                actionText="Go to Dashboard"
+                actionLink="/"
+              />
+            }
+          />
+          <Route
+            path="/appointments"
+            element={
+              <PlaceholderPage
+                title="Appointment Manager"
+                icon="bi-calendar-event"
+                phase="Phase 5 Target"
+                description="Schedule, track, and manage your upcoming doctor visits with linked preparation agendas."
+                actionText="Go to Dashboard"
+                actionLink="/"
+              />
+            }
+          />
+          <Route
+            path="/notes"
+            element={
+              <PlaceholderPage
+                title="Visit Notes Manager (CRUD)"
+                icon="bi-journal-text"
+                phase="Phase 5 Target"
+                description="Full create, view, edit, and delete functionality for doctor instructions, medication notes, and follow-up clinical items."
+                actionText="Go to Dashboard"
+                actionLink="/"
+              />
+            }
+          />
+          <Route
+            path="/library"
+            element={
+              <PlaceholderPage
+                title="Health Library & Jargon Simplifier"
+                icon="bi-journal-medical"
+                phase="Phase 6 Target"
+                description="Searchable library of common medical conditions, visit preparation checklists, and plain-English medical terminology translator."
+                actionText="Go to Dashboard"
+                actionLink="/"
+              />
+            }
+          />
+          <Route
+            path="*"
+            element={
+              <PlaceholderPage
+                title="Page Not Found"
+                icon="bi-compass"
+                phase="404"
+                description="The page you requested does not exist. Please return to the dashboard."
+                actionText="Return to Dashboard"
+                actionLink="/"
+              />
+            }
+          />
         </Routes>
       </main>
+
+      {/* 4. Footer */}
+      <Footer />
     </div>
   );
 }

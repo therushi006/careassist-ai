@@ -87,3 +87,54 @@ This document records the exact user prompts, implementation steps, and concrete
 4. **Build & Dev Server Verification**:
    - Executed `npm run build`: Successfully built all production assets in 1.32s with zero errors or warnings.
    - Launched Vite dev server on `http://localhost:3000/`: Verified operational status with HMR enabled.
+
+---
+
+## Prompt 4: Phase 2 Approval — Responsive Layout & Professional Dashboard
+
+### User Request
+> "I approve Phase 2. Please implement the responsive application layout and professional dashboard in the existing project.
+>
+> Requirements:
+>
+> 1. Create Navbar.jsx with working navigation links, active route styling, and a mobile-friendly menu.
+> 2. Create EmergencyNotice.jsx with a clear healthcare safety disclaimer. Do not claim that the application can diagnose or reliably detect emergencies.
+> 3. Create Footer.jsx with appropriate project information and safety wording.
+> 4. Create Dashboard.jsx with:
+>    - A professional welcome section.
+>    - Summary metric cards using actual localStorage data.
+>    - Quick actions for Start Prep, Open Assistant, New Note, and Schedule Visit.
+>    - Upcoming appointments and recent notes.
+>    - Useful empty states when no data exists.
+> 5. Use React Router for navigation and Bootstrap 5 with standard CSS for styling.
+> 6. Maintain the existing healthcare colour scheme, typography, and responsive layout.
+> 7. Do not use Tailwind CSS or React Bootstrap.
+> 8. Do not create fake appointment or note records to make the dashboard appear populated. Use empty states when there is no saved data.
+> 9. Ensure all navigation links and quick-action buttons work. If a destination page has not been implemented yet, create a clearly labelled temporary placeholder or disable the action appropriately.
+> 10. Preserve existing configuration and prompt documentation. Update PROMPT_DOCUMENTATION.md with the actual prompt and changes made.
+> 11. Run npm run build and fix any errors. If browser testing is available, verify desktop and mobile layouts.
+>
+> After completing Phase 2, report the files changed, features implemented, and test results. Do not begin Phase 3 until I confirm."
+
+### Actions Taken & Improvements
+1. **Implemented Centralized Persistence Layer (`storageService.js`)**:
+   - Provides safe read/write access to `localStorage` for appointments, notes, and prep summaries.
+   - **Zero Fake Data Injected**: Strict adherence to empty state rules; returns real empty arrays when storage is blank.
+2. **Built `EmergencyNotice.jsx`**:
+   - Added humble, prominent healthcare notice affirming that software cannot diagnose, detect, or rule out emergencies.
+   - Included expandable panel with standard emergency advice (call 911/emergency department for chest pain, stroke symptoms, acute breathing distress) and national helpline numbers (911, Poison Control 1-800-222-1222, 988 Lifeline).
+3. **Built Responsive `Navbar.jsx`**:
+   - Complete navigation header with brand icon, active route highlighting using React Router's `NavLink`, and a mobile hamburger toggler managed via React state.
+   - Seamless navigation to Dashboard, Health Assistant, Appointment Prep, Appointments, Visit Notes, and Health Library.
+4. **Built Informative `Footer.jsx`**:
+   - Outlined project origin for the AI Growth & Automation Associate assessment, privacy highlights (local storage only, zero cloud leakage), and non-diagnostic legal safeguards.
+5. **Built Temporary Phased Placeholders (`PlaceholderPage.jsx`)**:
+   - Ensured zero broken links; clicking any future phase feature displays an informative, labeled status card with a direct return path to the Dashboard.
+6. **Built `Dashboard.jsx`**:
+   - **Welcome Hero Section**: Clean healthcare banner emphasizing patient agency and privacy.
+   - **Live Metric Cards**: Dynamically reflects actual `localStorage` counters (Upcoming Visits, Prep Guides, Visit Notes, Library Status).
+   - **Quick Action Hub**: 4 primary cards linking directly to Start Prep (`/prep`), Open Assistant (`/assistant`), New Note (`/notes`), and Schedule Visit (`/appointments`).
+   - **Upcoming Appointments & Recent Notes Widgets**: Includes thoughtful, clean empty states with direct call-to-action buttons when zero items are in storage.
+7. **Production Build & Verification**:
+   - Executed `npm run build`: Bundled 33 modules in 1.34s with zero errors or warnings.
+   - Verified dev server responding with HTTP status 200 on `http://localhost:3000/`.
