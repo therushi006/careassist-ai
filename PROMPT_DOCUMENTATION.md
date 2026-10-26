@@ -393,3 +393,89 @@ This document records the exact user prompts, implementation steps, and concrete
      - **Total: 98 / 98 tests passing across all suites**.
 6. **Production Build Verified**:
    - `npm run build` completed in 1.16s with 0 errors and 0 warnings.
+
+---
+
+## Prompt 8: Phase 6 — Searchable Health Information Library & Medical Terminology Simplifier
+
+### User Request
+> "I approve Phase 5 based on the implementation report. Begin Phase 6: Searchable Health Information Library and Medical Terminology Simplifier at `/library`.
+>
+> Work in my existing `AI assement` project. Inspect the current code first. Reuse the existing `healthLibraryData.js`, storage service, shared components, styling, and routing. Preserve all working features from Phases 1–5. Do not rebuild the project.
+>
+> ### 1. Searchable health information library
+> - Display educational health topics from the existing `healthLibraryData.js` dataset.
+> - Add instant keyword search across topic titles, descriptions, and relevant terms.
+> - Add category filters and a clear-filters option.
+> - Create a readable detail view for each topic, with a clear back-to-library action.
+> - Include useful empty states when no results match.
+> - Show the source and review status of each topic where available. Never invent medical sources, citations, or clinical-review claims.
+> - If the existing dataset lacks source or review information, clearly identify the content as general educational information and flag the missing metadata in the final report.
+>
+> ### 2. Medical terminology simplifier
+> - Let users enter a medical term or paste a short medical sentence.
+> - Provide a plain-language explanation using a transparent, deterministic approach, such as a curated dictionary of verified terms and safe fallback guidance.
+> - Clearly label this feature as a basic terminology helper, not a live AI model, unless a real model integration is actually implemented.
+> - Never fabricate definitions or claim certainty when a term is unknown.
+> - For unknown terms, explain that the user should check the wording with their healthcare professional.
+> - Where practical, include examples that help users understand the wording without making a personal diagnosis.
+>
+> ### 3. Safety, privacy, and accessibility
+> - Keep the educational disclaimer visible.
+> - Do not diagnose conditions, recommend medication, prescribe treatment, or interpret an individual's symptoms as a diagnosis.
+> - Do not add automatic emergency triage.
+> - Encourage users to ask their healthcare professional about information that affects their care.
+> - Do not send entered text to external services. Keep this feature local to the browser.
+> - Use accessible labels, keyboard-friendly controls, responsive layouts, and clear error and empty states.
+>
+> ### 4. Testing and documentation
+> - Add automated tests for library search, category filtering, topic details, terminology lookup, unknown-term handling, and any new data-processing logic.
+> - Run the existing Phase 3, Phase 4, and Phase 5 test suites as regression tests.
+> - Run `npm run build` and fix any errors.
+> - Update `PROMPT_DOCUMENTATION.md` with this exact prompt, actual implementation details, test commands and results, and remaining limitations.
+> - Report only tests that were actually executed. Do not claim the app uses a live AI model if it does not.
+>
+> Do not begin Phase 7 until I have reviewed the Phase 6 report. At the end, provide a concise summary of files changed, features implemented, tests executed, build result, and known limitations."
+
+### Actions Taken & Improvements
+1. **Curated Reference Dataset Enhancement (`healthLibraryData.js`)**:
+   - Expanded dictionary to include additional high-frequency clinical terms (Edema, Neuropathy, Acute vs Chronic, etc.) with phonetic pronunciations and doctor discussion questions.
+   - Added `source` ("General Healthcare Literacy Reference") and `reviewStatus` ("Not Clinically Reviewed") to each guide and term.
+   - Added `detailedContent` and `discussionChecklist` to all health guides.
+   - Created deterministic engine `simplifyMedicalText(input)`: parses exact terms or terms embedded within user-pasted sentences.
+   - Implemented transparent fallback logic for unknown terms: avoids fabrication, clearly alerts the user that the term was not found in the basic dictionary, and suggests framing questions for their physician or pharmacist.
+2. **Built Medical Terminology Simplifier (`MedicalTermSimplifier.jsx`)**:
+   - Input box allowing users to type single terms or paste complex sentences.
+   - Quick-try chips for rapid demonstration without manual typing.
+   - Distinctly labeled: *Rule-Based Dictionary • Not a Live AI Model*.
+   - Renders pronunciation, plain-language meaning, "why it matters", and doctor questions.
+   - 100% in-browser processing with zero external network requests.
+3. **Built Educational Guide Reader Modal (`GuideDetailModal.jsx`)**:
+   - Readable full detail modal with category badge, reading time, and review status.
+   - Displays comprehensive guide breakdown, preparation steps, and doctor discussion checklist.
+   - Clear "Back to Library" action.
+4. **Built Full Health Library Page (`HealthLibraryPage.jsx`)**:
+   - Tab switcher between *Visit Guides* and *Medical Glossary*.
+   - Instant real-time keyword search across titles, summaries, checklist items, and terminology definitions.
+   - Dynamic category filter dropdown with instant reset button.
+   - Actionable empty states when search criteria yield zero matches.
+   - Prominent educational disclaimer banner.
+5. **Executed Automated Tests**:
+   - Created `testPhase6HealthLibrary.js` and executed 30 tests covering:
+     - Non-diagnostic educational metadata and "Not Clinically Reviewed" tags.
+     - Guide search (title, summary, empty query, non-matching query).
+     - Category filtering.
+     - Guide detail retrieval by ID.
+     - Exact terminology simplification.
+     - Complex sentence parsing with multi-term detection.
+     - Unknown term safe fallback and non-fabrication guarantees.
+     - Blank/whitespace input resilience.
+   - Executed full regression suite:
+     - `testStorageService.js`: 34 / 34 PASS
+     - `testPhase4PrepFlow.js`: 27 / 27 PASS
+     - `testPhase5AppointmentsNotes.js`: 37 / 37 PASS
+     - `testPhase6HealthLibrary.js`: 30 / 30 PASS
+     - **Total: 128 / 128 tests passing across all suites**.
+6. **Production Build Verified**:
+   - `npm run build` completed in 1.39s with 0 errors and 0 warnings.
+   - Dev server confirmed responding with HTTP 200 OK at `/library`.

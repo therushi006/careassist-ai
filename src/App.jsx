@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import AppointmentPrepPage from './pages/AppointmentPrepPage';
 import AppointmentManagerPage from './pages/AppointmentManagerPage';
 import NotesPage from './pages/NotesPage';
+import HealthLibraryPage from './pages/HealthLibraryPage';
 import PlaceholderPage from './components/common/PlaceholderPage';
 
 export default function App() {
@@ -38,19 +39,7 @@ export default function App() {
           <Route path="/prep" element={<AppointmentPrepPage />} />
           <Route path="/appointments" element={<AppointmentManagerPage />} />
           <Route path="/notes" element={<NotesPage />} />
-          <Route
-            path="/library"
-            element={
-              <PlaceholderPage
-                title="Health Library & Jargon Simplifier"
-                icon="bi-journal-medical"
-                phase="Phase 6 Target"
-                description="Searchable library of common medical conditions, visit preparation checklists, and plain-English medical terminology translator."
-                actionText="Go to Dashboard"
-                actionLink="/"
-              />
-            }
-          />
+          <Route path="/library" element={<HealthLibraryPage />} />
           <Route
             path="*"
             element={
