@@ -105,3 +105,64 @@ body {
   color: var(--primary-healthcare) !important;
   transition: color 0.15s ease;
 }
+
+
+/* Ruled lines for printed doctor notes */
+.ruled-line {
+  height: 28px;
+  border-bottom: 1px dashed #cbd5e1 !important;
+}
+
+/* Print-Specific Stylesheet Rules */
+@media print {
+  /* Hide non-printable navigation, banners, buttons, and step indicators */
+  .navbar,
+  .footer,
+  .emergency-notice-wrapper,
+  .no-print,
+  .btn,
+  .badge-simulated {
+    display: none !important;
+  }
+
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt !important;
+  }
+
+  .container {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .printable-agenda {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+
+  .table-bordered th,
+  .table-bordered td {
+    border-color: #94a3b8 !important;
+  }
+
+  .table-light {
+    background-color: #f1f5f9 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .bg-soft-blue,
+  .bg-light {
+    background-color: #f8fafc !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .badge {
+    border: 1px solid #64748b !important;
+    color: #000000 !important;
+  }
+}

@@ -4,6 +4,7 @@ import Navbar from './components/common/Navbar';
 import EmergencyNotice from './components/common/EmergencyNotice';
 import Footer from './components/common/Footer';
 import Dashboard from './pages/Dashboard';
+import AppointmentPrepPage from './pages/AppointmentPrepPage';
 import PlaceholderPage from './components/common/PlaceholderPage';
 
 export default function App() {
@@ -32,19 +33,7 @@ export default function App() {
               />
             }
           />
-          <Route
-            path="/prep"
-            element={
-              <PlaceholderPage
-                title="Appointment Preparation Form"
-                icon="bi-clipboard2-check"
-                phase="Phase 4 Target"
-                description="Guided patient intake to structure your chief complaint, symptom timeline, impacts on daily routine, and generate doctor questions."
-                actionText="Go to Dashboard"
-                actionLink="/"
-              />
-            }
-          />
+          <Route path="/prep" element={<AppointmentPrepPage />} />
           <Route
             path="/appointments"
             element={

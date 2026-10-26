@@ -230,3 +230,84 @@ This document records the exact user prompts, implementation steps, and concrete
    - Result: 34 / 34 passed.
 6. **Production Build Verified**:
    - `npm run build` completed with 0 errors in 1.31s.
+
+---
+
+## Prompt 6: Phase 4 — Appointment Preparation Flow & Doctor Questions Generator
+
+### User Request
+> "I approve Phase 3. Begin Phase 4: Appointment Preparation Flow and Doctor Questions Generator.
+>
+> Work in the existing "AI assement" project. Inspect the current code and reuse the existing storageService.js and healthLibraryData.js. Do not rebuild the project or change the established design unnecessarily.
+>
+> Implement the following:
+>
+> 1. APPOINTMENT PREPARATION PAGE
+> - Build a polished, responsive multi-step form at /prep.
+> - Collect the user's main concern, duration, symptom description, frequency, severity as described by the user, triggers, relieving factors, daily-life impact, and questions or goals for the appointment.
+> - Clearly label optional fields and allow users to move backward and forward between steps.
+> - Validate required fields and show helpful error messages.
+> - Do not require users to enter sensitive personal information.
+>
+> 2. DOCTOR QUESTIONS GENERATOR
+> - Generate a useful list of questions from the user's own entries using transparent, rule-based logic.
+> - Categorize questions where useful, such as symptoms, tests, treatment options, and follow-up.
+> - Allow users to add, edit, check, and remove questions.
+> - Do not claim that the rule-based generator uses a live AI model.
+> - Do not diagnose conditions, recommend medication, or make clinical decisions.
+>
+> 3. STRUCTURED PREPARATION SUMMARY
+> - Generate an editable summary that organizes the user's own information without adding unsupported medical claims.
+> - Include the main concern, reported symptoms, duration, impact, questions for the doctor, and appointment goals.
+> - Let users save, update, and reopen summaries using the existing storage service.
+> - Support a print-friendly layout and a working print action.
+>
+> 4. STORAGE INTEGRATION
+> - Use the existing careassist_prep_summaries storage structure.
+> - Verify create, read, update, and delete operations where applicable.
+> - Ensure saved data appears correctly when reopening a summary.
+> - Ensure dashboard counts update when summaries are saved or changed.
+>
+> 5. USER EXPERIENCE AND SAFETY
+> - Use a clear step indicator, accessible labels, helpful empty states, and mobile-responsive styling.
+> - Include the existing healthcare safety disclaimer.
+> - Do not automatically diagnose or triage users from symptom keywords.
+> - Display cautious emergency guidance when appropriate without implying that the app can detect or rule out emergencies.
+> - Do not fabricate user entries or medical facts.
+>
+> 6. DOCUMENTATION AND TESTING
+> - Update PROMPT_DOCUMENTATION.md with the actual prompt and implementation changes.
+> - Add or update tests for form validation, question generation, summary saving, editing, reopening, and printing where practical.
+> - Run npm run build and fix errors.
+> - Report which tests were actually executed and their results.
+>
+> Preserve all working Phase 1–3 functionality. Do not begin Phase 5 until I review the results.
+>
+> Start by inspecting the existing project files, then implement Phase 4."
+
+### Actions Taken & Improvements
+1. **Rule-Based Question Generator (`questionGeneratorService.js`)**:
+   - Developed deterministic question formulation heuristics mapped to the user's entries.
+   - Categorized into 4 key visit domains: *Understanding & Diagnosis Clarification*, *Diagnostic Tests & Investigations*, *Treatment & Daily Management Options*, and *Monitoring, Follow-up & Red Flags*.
+   - Evaluates durations, reported severity levels, observed triggers, relieving factors, and daily routine impacts.
+   - Distinctly labeled: *Rule-Based Generator (Not a live AI model • Informational assistance only)*.
+2. **Interactive Multi-Step Intake (`/prep`)**:
+   - **Step Indicator (`PrepStepIndicator.jsx`)**: Connected 4-step progress tracker with direct backward/forward step navigation.
+   - **Step 1 (`Step1VisitConcern.jsx`)**: Captures visit type, doctor/clinic name (optional), target visit date (optional), chief concern (required), and patient visit goals (preset toggles + custom input).
+   - **Step 2 (`Step2SymptomsImpact.jsx`)**: Captures detailed sensations (required), duration/onset, frequency patterns, severity descriptions, observed triggers, relieving factors, and daily routine impacts. Includes cautious emergency guidance alert.
+   - **Step 3 (`Step3QuestionsReview.jsx`)**: Categorized questions checklist allowing users to toggle inclusion, edit question text inline, delete questions, and add custom questions.
+   - **Step 4 (`Step4SummaryReview.jsx`)**: Structured doctor discussion agenda with appointment metadata, chief concern callout, symptom breakdown, visit goals, prioritized question table, and dedicated ruled clinical notes section for handwritten physician instructions during visits.
+3. **Print-Friendly Styling**:
+   - Added `@media print` rules in `src/index.css` hiding navigation, emergency notices, toolbar buttons, and step indicators while optimizing the printable agenda card with clean typography, borders, and page-break rules.
+4. **Storage & Dashboard Reactivity**:
+   - Integrated full CRUD into `/prep`: Users can save new agendas, update existing agendas, browse saved agendas via drawer, reopen saved sheets directly via URL search param (`?id=...`), or delete old agendas.
+   - Automatically dispatches storage events so Dashboard metrics update in real-time.
+5. **Executed Automated Test Suite (`testPhase4PrepFlow.js`)**:
+   - Executed 27 targeted tests verifying:
+     - Form validation guardrails (rejecting blank or missing chief concerns).
+     - Rule-based question generator heuristics (differential questions, timeline duration triggers, high-severity red flags, triggers, relieving factors, and patient goals mapping).
+     - Storage persistence cycle (add, ID verification, storage change event dispatch, retrieve by ID, data fidelity, update, dashboard metric sync, and deletion).
+   - Result: 27 / 27 tests passed.
+   - Full regression suite (`testStorageService.js` + `testPhase4PrepFlow.js`): 61 / 61 tests passed.
+6. **Production Build Verified**:
+   - `npm run build` completed in 827ms with 0 errors and 0 warnings.
