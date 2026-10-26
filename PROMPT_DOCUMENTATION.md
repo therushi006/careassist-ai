@@ -311,3 +311,85 @@ This document records the exact user prompts, implementation steps, and concrete
    - Full regression suite (`testStorageService.js` + `testPhase4PrepFlow.js`): 61 / 61 tests passed.
 6. **Production Build Verified**:
    - `npm run build` completed in 827ms with 0 errors and 0 warnings.
+
+---
+
+## Prompt 7: Phase 5 — Appointment Manager & Visit Notes (Full CRUD)
+
+### User Request
+> "I approve Phase 4 after reviewing the implementation report.
+>
+> Begin Phase 5: Appointment Manager and Visit Notes (Full CRUD).
+>
+> Work in my existing `AI assement` project. First inspect the current code, reuse the existing `storageService.js`, shared components, dashboard event system, and design. Do not rebuild the project or unnecessarily change the existing UI.
+>
+> Implement the following:
+>
+> 1. **Appointments page (`/appointments`)**
+>    - Create, view, edit, and delete appointments.
+>    - Include appointment date/time, provider name, visit type, location or meeting details (optional), and notes (optional).
+>    - Validate required fields and handle invalid dates clearly.
+>    - Provide useful empty states and confirmation before deleting.
+>    - Allow users to mark appointments as completed or upcoming where appropriate.
+>
+> 2. **Visit Notes page (`/notes`)**
+>    - Create, view, edit, and delete visit notes.
+>    - Allow a note to be linked to an appointment when applicable.
+>    - Include fields for visit date, main discussion points, doctor's instructions as entered by the user, and follow-up tasks.
+>    - Make notes searchable and filterable.
+>    - Do not invent medical information or imply that user-entered notes are verified medical records.
+>
+> 3. **Storage and integration**
+>    - Use the existing storage service and its current localStorage keys and data formats wherever possible.
+>    - Maintain unique IDs when editing existing records.
+>    - Make sure changes update the dashboard counters through the existing storage event mechanism.
+>    - Preserve existing Phase 1–4 functionality and styling.
+>    - Clearly explain that data is stored locally in this browser and is not automatically backed up or synced to the cloud.
+>
+> 4. **Safety and accessibility**
+>    - Use clear labels, keyboard-friendly controls, accessible validation messages, and responsive layouts.
+>    - Ask for confirmation before destructive actions.
+>    - Keep medical disclaimers visible where appropriate.
+>    - Do not add diagnosis, prescription, treatment recommendations, or fabricated sample patient records.
+>
+> 5. **Tests and documentation**
+>    - Add automated tests for appointment CRUD, visit-note CRUD, validation, linking notes to appointments, search/filter behaviour, and storage event notifications.
+>    - Run the existing Phase 3 and Phase 4 test suites as regression tests.
+>    - Run `npm run build` and fix any errors.
+>    - Update `PROMPT_DOCUMENTATION.md` with the exact prompt, actual implementation details, tests actually executed, and any known limitations.
+>    - Report the exact test commands and results. Do not claim a test passed unless it was actually run.
+>
+> Do not begin Phase 6 until I review the Phase 5 report. At the end, provide a concise summary of files changed, features implemented, tests executed, build result, and remaining limitations."
+
+### Actions Taken & Improvements
+1. **Enhanced Data Validation & Storage (`storageService.js`)**:
+   - Refined `validateAppointment` to validate date validity and year range (1900–2100), eliminating JavaScript's lenient date parsing quirks.
+   - Preserved `visitType`, `location`, `reason`, `notes`, and `prepSummaryId` across appointment CRUD operations.
+   - Preserved `instructions` (doctor's care directions as entered by the user), `appointmentId`, `tags`, and `actionItems` across visit notes CRUD.
+2. **Built Appointment Manager (`AppointmentModal.jsx` & `AppointmentManagerPage.jsx`)**:
+   - Implemented full CRUD: Schedule new visit, view details, edit existing records, and delete with explicit confirmation.
+   - Added filter tabs (All, Upcoming, Completed) and instant keyword search across doctors, specialties, locations, and visit reasons.
+   - Status toggle allows users to mark appointments as completed or upcoming with one click, which reactively updates upcoming visit counters on the Dashboard.
+   - Integrated cross-linking: Direct link to view attached prep agenda (`/prep?id=...`) and direct shortcut to log visit notes (`/notes?appointmentId=...`).
+3. **Built Visit Notes Manager (`NoteModal.jsx` & `NotesPage.jsx`)**:
+   - Implemented full CRUD: Record new clinical takeaways, edit, view, and delete with confirmation prompts.
+   - Allows linking notes directly to scheduled or completed appointments.
+   - Multi-criteria search and filter engine: keyword search across title, discussion points, instructions, and tags; filter by tag; filter by linked appointment.
+   - Dedicated highlighted callout box for Doctor's Instructions and interactive follow-up task checklists.
+   - Explicit disclaimer clarifying that notes are self-reported memory aids, not certified Electronic Health Records (EHR).
+4. **Local-Only Storage Safeguards**:
+   - Prominently placed informational banners on both pages emphasizing that data resides exclusively in the browser's `localStorage` with zero external cloud transmission.
+5. **Executed Automated Tests**:
+   - Created `testPhase5AppointmentsNotes.js` and executed 37 targeted tests covering:
+     - Appointment validation (rejecting blank doctor names, rejecting invalid date formats).
+     - Appointment CRUD, status toggling (scheduled -> completed), and dashboard metrics sync.
+     - Note validation (rejecting blank titles/contents), appointment ID linking, and action item persistence.
+     - Multi-criteria search (keyword in title/content/instructions), tag filtering, and linked appointment filtering.
+     - Confirmation of storage event dispatches.
+   - Executed full regression suite:
+     - `testStorageService.js`: 34 / 34 PASS
+     - `testPhase4PrepFlow.js`: 27 / 27 PASS
+     - `testPhase5AppointmentsNotes.js`: 37 / 37 PASS
+     - **Total: 98 / 98 tests passing across all suites**.
+6. **Production Build Verified**:
+   - `npm run build` completed in 1.16s with 0 errors and 0 warnings.

@@ -92,6 +92,12 @@ export function validateAppointment(appointment) {
   if (!appointment.doctorName || typeof appointment.doctorName !== 'string' || !appointment.doctorName.trim()) {
     return { isValid: false, error: 'Doctor name is required.' };
   }
+  if (appointment.date) {
+    const parsedDate = new Date(appointment.date);
+    if (isNaN(parsedDate.getTime()) || parsedDate.getFullYear() < 1900 || parsedDate.getFullYear() > 2100) {
+      return { isValid: false, error: 'Please enter a valid appointment date.' };
+    }
+  }
   return { isValid: true };
 }
 
@@ -148,10 +154,12 @@ export const storageService = {
       id: appointmentData.id || generateId('apt'),
       doctorName: appointmentData.doctorName.trim(),
       specialty: appointmentData.specialty?.trim() || 'General Practice',
+      visitType: appointmentData.visitType?.trim() || 'General Consultation',
       date: appointmentData.date || '',
       time: appointmentData.time || '',
       location: appointmentData.location?.trim() || '',
       reason: appointmentData.reason?.trim() || '',
+      notes: appointmentData.notes?.trim() || '',
       prepSummaryId: appointmentData.prepSummaryId || null,
       status: appointmentData.status || 'scheduled',
       createdAt: appointmentData.createdAt || now,
@@ -226,6 +234,7 @@ export const storageService = {
       id: noteData.id || generateId('note'),
       title: noteData.title.trim(),
       content: noteData.content.trim(),
+      instructions: noteData.instructions?.trim() || '',
       appointmentId: noteData.appointmentId || null,
       doctorName: noteData.doctorName?.trim() || '',
       date: noteData.date || new Date().toISOString().split('T')[0],

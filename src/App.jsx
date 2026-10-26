@@ -5,6 +5,8 @@ import EmergencyNotice from './components/common/EmergencyNotice';
 import Footer from './components/common/Footer';
 import Dashboard from './pages/Dashboard';
 import AppointmentPrepPage from './pages/AppointmentPrepPage';
+import AppointmentManagerPage from './pages/AppointmentManagerPage';
+import NotesPage from './pages/NotesPage';
 import PlaceholderPage from './components/common/PlaceholderPage';
 
 export default function App() {
@@ -34,32 +36,8 @@ export default function App() {
             }
           />
           <Route path="/prep" element={<AppointmentPrepPage />} />
-          <Route
-            path="/appointments"
-            element={
-              <PlaceholderPage
-                title="Appointment Manager"
-                icon="bi-calendar-event"
-                phase="Phase 5 Target"
-                description="Schedule, track, and manage your upcoming doctor visits with linked preparation agendas."
-                actionText="Go to Dashboard"
-                actionLink="/"
-              />
-            }
-          />
-          <Route
-            path="/notes"
-            element={
-              <PlaceholderPage
-                title="Visit Notes Manager (CRUD)"
-                icon="bi-journal-text"
-                phase="Phase 5 Target"
-                description="Full create, view, edit, and delete functionality for doctor instructions, medication notes, and follow-up clinical items."
-                actionText="Go to Dashboard"
-                actionLink="/"
-              />
-            }
-          />
+          <Route path="/appointments" element={<AppointmentManagerPage />} />
+          <Route path="/notes" element={<NotesPage />} />
           <Route
             path="/library"
             element={
